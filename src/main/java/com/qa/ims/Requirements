@@ -1,0 +1,39 @@
+Minimum Requirements for IMS.
+
+Build an application that an end user can interact with via a CLI (Command Line Interface).
+
+Should have (=), be able to (-):
+	
+	= Customers - must have a name
+	- Add a customer to the system
+	- View all customers in the system
+	- Update a customer in the system
+	- Delete a customer in the system.
+
+	= Items - must have a name and a value
+	- Add an item to the system
+	- View all items in the system
+	- Update an item in the system
+	- Delete an item in the system 
+
+	= Orders - must have a customer and item(s)
+	- Create an order in the system.
+	- View all orders in the system.
+	- Delete an order in the system
+	- Add an item to an order.
+	- Calculate a cost for an order.
+	- Delete an item in an order
+	
+Overall project must have:
+	
+	- A Kanban board with full expansion on user stories and tasks needed to complete the project. 
+	It should also provide a record of any issues or risks that you faced creating your project.
+	- A relational database used to store data persistently for the project, 
+	this database needs to have at least 3 tables in it, to demonstrate your understanding, you are also required to model a relationship.
+	- A functional application, following best practices and design principles, 
+	in a language that you have covered during training that meets the requirements set on your Kanban Board.
+	- Unit tests and integration tests for validation of the application. You should strive to reach an industry standard coverage of 80%
+	- Code fully integrated into a Version Control System (GitHub) using the Feature Branch Model: main/dev/features
+	- A Risk assessment which outlines the issues and risks faced during the project time frame.
+	- You should consider the concept of MVP (Minimum Viable Product) as you plan your project, 
+	complete all the requirements above before you add extra functionality that is not specified above.	
