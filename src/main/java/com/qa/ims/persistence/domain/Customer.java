@@ -5,7 +5,7 @@ public class Customer {
 	private Long id;
 	private String firstName;
 	private String surname;
-
+	
 	public Customer(String firstName, String surname) {
 		this.setFirstName(firstName);
 		this.setSurname(surname);
