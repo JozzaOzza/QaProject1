@@ -6,9 +6,13 @@ import org.apache.logging.log4j.Logger;
 import com.qa.ims.controller.Action;
 import com.qa.ims.controller.CrudController;
 import com.qa.ims.controller.CustomerController;
+<<<<<<< HEAD
 import com.qa.ims.controller.ItemController;
 import com.qa.ims.persistence.dao.CustomerDAO;
 import com.qa.ims.persistence.dao.ItemDAO;
+=======
+import com.qa.ims.persistence.dao.CustomerDAO;
+>>>>>>> bc14e08752e30879a5c9bca2e759e0d5149c62dd
 import com.qa.ims.persistence.domain.Domain;
 import com.qa.ims.utils.DBUtils;
 import com.qa.ims.utils.Utils;
@@ -18,15 +22,21 @@ public class IMS {
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	private final CustomerController customers;
+<<<<<<< HEAD
 	private final ItemController items;
+=======
+>>>>>>> bc14e08752e30879a5c9bca2e759e0d5149c62dd
 	private final Utils utils;
 
 	public IMS() {
 		this.utils = new Utils();
 		final CustomerDAO custDAO = new CustomerDAO();
 		this.customers = new CustomerController(custDAO, utils);
+<<<<<<< HEAD
 		final ItemDAO itemDAO = new ItemDAO();
 		this.items = new ItemController(itemDAO, utils);
+=======
+>>>>>>> bc14e08752e30879a5c9bca2e759e0d5149c62dd
 	}
 
 	public void imsSystem() {
@@ -55,7 +65,10 @@ public class IMS {
 				active = this.customers;
 				break;
 			case ITEM:
+<<<<<<< HEAD
 				active = this.items;
+=======
+>>>>>>> bc14e08752e30879a5c9bca2e759e0d5149c62dd
 				break;
 			case ORDER:
 				break;
@@ -98,4 +111,8 @@ public class IMS {
 			break;
 		}
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> bc14e08752e30879a5c9bca2e759e0d5149c62dd
 }
