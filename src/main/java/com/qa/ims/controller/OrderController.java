@@ -44,10 +44,8 @@ public class OrderController implements CrudController<Order> {
 	@Override
 	public Order create() {
 		LOGGER.info("Please enter the customer ID for which the order will be assigned to");
-		String fkCustID = utils.getString();
-		LOGGER.info("Please enter a surname");
-		String surname = utils.getString();
-		order order = orderDAO.create(new Order(fkCustID));
+		Long custID = utils.getLong();
+		Order order = orderDAO.create(new Order(custID));
 		LOGGER.info("Order created");
 		return order;
 	}
@@ -57,15 +55,14 @@ public class OrderController implements CrudController<Order> {
 	 */
 	@Override
 	public Order update() {
-		LOGGER.info("Please enter the id of the order you would like to update");
-		Long id = utils.getLong();
-		LOGGER.info("Please enter a first name");
-		String firstName = utils.getString();
-		LOGGER.info("Please enter a surname");
-		String surname = utils.getString();
-		Order order = orderDAO.update(new Order(id, firstName, surname));
-		LOGGER.info("order Updated");
-		return order;
+//		LOGGER.info("Please enter the id of the order you would like to update");
+//		Long orderId = utils.getLong();
+//		LOGGER.info("Please enter an item name");
+//		String itemName = utils.getString();
+//		Order order = orderDAO.update(new Order(orderId, itemName));
+//		LOGGER.info("Order Updated");
+//		return order;
+		return null;
 	}
 
 	/**
@@ -76,8 +73,8 @@ public class OrderController implements CrudController<Order> {
 	@Override
 	public int delete() {
 		LOGGER.info("Please enter the id of the order you would like to delete");
-		Long id = utils.getLong();
-		return orderDAO.delete(id);
+		Long orderId = utils.getLong();
+		return orderDAO.delete(orderId);
 	}
 
 }

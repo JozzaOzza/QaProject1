@@ -5,20 +5,36 @@ import java.util.ArrayList;
 public class Order {
 
 	private Long orderId;
-	private Customer customer;
+	private Long custId;
 	private ArrayList<Item> itemList;
+		
+	public Order(Long custId) { // , ArrayList<Item> itemList
+		this.setCustId(custId);
 	
-	public Order(Customer customer, ArrayList<Item> itemList) {
-		this.setCustomer(customer);
+	}
+	
+	public Order(Long custId, ArrayList<Item> itemList) { // , ArrayList<Item> itemList
+		this.setCustId(custId);
+		this.setItemList(itemList);
+	
+	}
+	
+	public Order(ArrayList<Item> itemList) { // , ArrayList<Item> itemList
 		this.setItemList(itemList);
 	
 	}
 
-	public Order(Long orderId, Customer customer, ArrayList<Item> itemList) {
+	public Order(Long orderId, Long custId) { // String itemName
 		this.setOrderId(orderId);
-		this.setCustomer(customer);
-		this.setItemList(itemList);
+		this.setCustId(custId);
 	
+	}
+
+	public Order(Long orderId, Long custId, ArrayList<Item> itemList) { // String itemName
+		this.setOrderId(orderId);
+		this.setCustId(custId);
+		this.setItemList(itemList);
+
 	}
 	public Long getOrderId() {
 		return orderId;
@@ -28,15 +44,15 @@ public class Order {
 		this.orderId = orderId;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public Long getCustId() {
+		return custId;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustId(Long custId) {
+		this.custId = custId;
 	}
 
-	public ArrayList<Item> itemList() {
+	public ArrayList<Item> getItemList() {
 		return itemList;
 	}
 
@@ -46,14 +62,14 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "order ID:" + orderId + " customer ID:" + customer.getId();
+		return "order ID: " + orderId + " customer ID: " + custId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((customer.getId() == null) ? 0 : customer.getId().hashCode());
+		result = prime * result + ((custId == null) ? 0 : custId.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + ((itemList == null) ? 0 : itemList.hashCode());
 
@@ -69,10 +85,10 @@ public class Order {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		if (getCustomer() == null) {
-			if (other.getCustomer() != null)
+		if (getCustId() == null) {
+			if (other.getCustId() != null)
 				return false;
-		} else if (!getCustomer().equals(other.getCustomer()))
+		} else if (!getCustId().equals(other.getCustId()))
 			return false;
 		if (orderId == null) {
 			if (other.orderId != null)
