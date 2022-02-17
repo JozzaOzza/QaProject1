@@ -55,14 +55,14 @@ public class OrderController implements CrudController<Order> {
 	 */
 	@Override
 	public Order update() {
-//		LOGGER.info("Please enter the id of the order you would like to update");
-//		Long orderId = utils.getLong();
-//		LOGGER.info("Please enter an item name");
-//		String itemName = utils.getString();
-//		Order order = orderDAO.update(new Order(orderId, itemName));
-//		LOGGER.info("Order Updated");
-//		return order;
-		return null;
+		LOGGER.info("Please enter the id of the order you would like to update");
+		Long orderId = utils.getLong();
+		LOGGER.info("Please enter an item name");
+		String itemName = utils.getString();
+		Order order = orderDAO.update(new Order(orderId, itemName));
+		LOGGER.info("Order Updated");
+		return order;
+
 	}
 
 	/**
@@ -74,6 +74,7 @@ public class OrderController implements CrudController<Order> {
 	public int delete() {
 		LOGGER.info("Please enter the id of the order you would like to delete");
 		Long orderId = utils.getLong();
+		LOGGER.info("Order deleted");
 		return orderDAO.delete(orderId);
 	}
 

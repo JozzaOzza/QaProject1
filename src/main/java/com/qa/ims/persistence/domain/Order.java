@@ -1,39 +1,39 @@
 package com.qa.ims.persistence.domain;
 
-import java.util.ArrayList;
-
 public class Order {
 
 	private Long orderId;
 	private Long custId;
-	private ArrayList<Item> itemList;
+	private String itemName;
+	private String surname;
 		
 	public Order(Long custId) { // , ArrayList<Item> itemList
 		this.setCustId(custId);
 	
 	}
 	
-	public Order(Long custId, ArrayList<Item> itemList) { // , ArrayList<Item> itemList
-		this.setCustId(custId);
-		this.setItemList(itemList);
-	
-	}
-	
-	public Order(ArrayList<Item> itemList) { // , ArrayList<Item> itemList
-		this.setItemList(itemList);
+//	public Order(Long custId, ArrayList<Item> itemList) { // , ArrayList<Item> itemList
+//		this.setCustId(custId);
+//		this.setItemList(itemList);
+//	
+//	}
+//	
+//	public Order(ArrayList<Item> itemList) { // , ArrayList<Item> itemList
+//		this.setItemList(itemList);
+//	
+//	}
+
+	public Order(Long orderId, String surname, String itemName) { // String itemName
+		this.setOrderId(orderId);
+//		this.setCustId(custId);
+		this.setSurname(surname);
+		this.setItemName(itemName);
 	
 	}
 
-	public Order(Long orderId, Long custId) { // String itemName
+	public Order(Long orderId, String itemName) { // String itemName
 		this.setOrderId(orderId);
-		this.setCustId(custId);
-	
-	}
-
-	public Order(Long orderId, Long custId, ArrayList<Item> itemList) { // String itemName
-		this.setOrderId(orderId);
-		this.setCustId(custId);
-		this.setItemList(itemList);
+		this.setItemName(itemName);
 
 	}
 	public Long getOrderId() {
@@ -52,17 +52,25 @@ public class Order {
 		this.custId = custId;
 	}
 
-	public ArrayList<Item> getItemList() {
-		return itemList;
+	public String getItemName() {
+		return itemName;
 	}
 
-	public void setItemList(ArrayList<Item> itemList) {
-		this.itemList = itemList;
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+	
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	@Override
 	public String toString() {
-		return "order ID: " + orderId + " customer ID: " + custId;
+		return "order ID: " + orderId + " surname: " + surname + " item name: " + itemName;
 	}
 
 	@Override
@@ -71,7 +79,8 @@ public class Order {
 		int result = 1;
 		result = prime * result + ((custId == null) ? 0 : custId.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
-		result = prime * result + ((itemList == null) ? 0 : itemList.hashCode());
+		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
+		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 
 		return result;
 	}
@@ -95,10 +104,15 @@ public class Order {
 				return false;
 		} else if (!orderId.equals(other.orderId))
 			return false;
-		if (itemList == null) {
-			if (other.itemList != null)
+		if (itemName == null) {
+			if (other.itemName != null)
 				return false;
-		} else if (!itemList.equals(other.itemList))
+		} else if (!itemName.equals(other.itemName))
+			return false;
+		if (surname == null) {
+			if (other.surname != null)
+				return false;
+		} else if (!surname.equals(other.surname))
 			return false;
 		return true;
 	}

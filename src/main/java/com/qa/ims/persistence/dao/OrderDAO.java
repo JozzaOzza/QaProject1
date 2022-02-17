@@ -20,26 +20,28 @@ public class OrderDAO implements Dao<Order>{
 
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long orderId = resultSet.getLong("orderId");
-		Long custId = resultSet.getLong("fkCustId");
-		String itemList = resultSet.getString("itemList");
-		return new Order(orderId, custId);
+		Long orderId = resultSet.getLong("o.orderId");
+//		Long custId = resultSet.getLong("o.fkCustId");
+		String surname = resultSet.getString("c.surname");
+		String itemName = resultSet.getString("itemName");
+		return new Order(orderId, surname, itemName);
 	}
 	
 	
-	public Order modelFromResultSetCustomer(ResultSet resultSet) throws SQLException {
-		Long orderId = resultSet.getLong("orderId");
-		Long custId = resultSet.getLong("fkCustId");
-		String itemList = resultSet.getString("itemList");
-		return new Order(orderId, custId);
-	}
+//	public Order modelFromResultSetCustomer(ResultSet resultSet) throws SQLException {
+//		Long orderId = resultSet.getLong("orderId");
+//		Long custId = resultSet.getLong("fkCustId");
+//		String surname = resultSet.getString("surname");
+//		return new Order(orderId, custId, surname);
+//	}
 	
-	public Order modelFromResultSetItem(ResultSet resultSet) throws SQLException {
-		Long orderId = resultSet.getLong("orderId");
-		Long custId = resultSet.getLong("fkCustId");
-		String itemList = resultSet.getString("itemList");
-		return new Order(orderId, custId);
-	}
+//	public Order modelFromResultSetItem(ResultSet resultSet) throws SQLException {
+//		Long orderId = resultSet.getLong("orderId");
+//		Long custId = resultSet.getLong("fkCustId");
+//		String itemList = resultSet.getString("itemList");
+//		resultSet.
+//		return new Order(orderId, custId);
+//	}
 
 
 	/**
@@ -51,7 +53,12 @@ public class OrderDAO implements Dao<Order>{
 	public List<Order> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders o JOIN customers c ON o.fkCustId = c.id ORDER BY orderId");) {
+				ResultSet resultSet = statement.executeQuery("SELECT o.orderId, c.surname, i.itemName\r\n"
+						+ "FROM (((orders o \r\n"
+						+ "JOIN customers c ON o.fkCustId = c.id )\r\n"
+						+ "JOIN orderItems oi ON o.orderId = oi.fkOrderId)\r\n"
+						+ "JOIN items i ON oi.fkItemId = i.itemId)\r\n"
+						+ "ORDER BY orderId;");) {
 			List<Order> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(modelFromResultSet(resultSet));
@@ -129,9 +136,14 @@ public class OrderDAO implements Dao<Order>{
 	public Order update(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orderItems (fkItemId, fkOrderId) VALUES (SELECT id FROM items WHERE itemName = ?, ?)");) {
-			statement.setString(1, order.getItemName());
-			statement.setLong(2, order.getOrderId());
+						.prepareStatement("INSERT INTO orderItems (fkOrderId, fkItemId) \r\n"
+								+ "VALUES (?, 1);\r\n"
+								+ "UPDATE orderItems\r\n"
+								+ "SET fkItemId = (SELECT itemId FROM items WHERE itemName LIKE '?')\r\n"
+								+ "WHERE fkOrderId = (SELECT fkOrderId FROM orderItems ORDER BY orderItemId DESC LIMIT 1) "
+								+ "ORDER BY orderItemId DESC LIMIT 1;")) {
+			statement.setLong(1, order.getOrderId());
+			statement.setString(2, order.getItemName());
 			statement.executeUpdate();
 			return read(order.getOrderId());
 		} catch (Exception e) {
@@ -149,7 +161,7 @@ public class OrderDAO implements Dao<Order>{
 	@Override
 	public int delete(long orderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE orderId = ?");) {
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE orderId = ?;")) {
 			statement.setLong(1, orderId);
 			return statement.executeUpdate();
 		} catch (Exception e) {
