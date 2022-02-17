@@ -1,58 +1,62 @@
 package com.qa.ims.persistence.domain;
 
+import java.util.ArrayList;
+
 public class Order {
 
-	private Long id;
-	private String firstName;
-	private ArrayList<Item> ;
+	private Long orderId;
+	private Customer customer;
+	private ArrayList<Item> itemList;
 	
-	public Order(String firstName, String surname) {
-		this.setFirstName(firstName);
-		this.setSurname(surname);
+	public Order(Customer customer, ArrayList<Item> itemList) {
+		this.setCustomer(customer);
+		this.setItemList(itemList);
+	
 	}
 
-	public Order(Long id, String firstName, String surname) {
-		this.setId(id);
-		this.setFirstName(firstName);
-		this.setSurname(surname);
+	public Order(Long orderId, Customer customer, ArrayList<Item> itemList) {
+		this.setOrderId(orderId);
+		this.setCustomer(customer);
+		this.setItemList(itemList);
+	
+	}
+	public Long getOrderId() {
+		return orderId;
 	}
 
-	public Long getId() {
-		return id;
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public ArrayList<Item> itemList() {
+		return itemList;
 	}
 
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setItemList(ArrayList<Item> itemList) {
+		this.itemList = itemList;
 	}
 
 	@Override
 	public String toString() {
-		return "id:" + id + " first name:" + firstName + " surname:" + surname;
+		return "order ID:" + orderId + " customer ID:" + customer.getId();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result + ((customer.getId() == null) ? 0 : customer.getId().hashCode());
+		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+		result = prime * result + ((itemList == null) ? 0 : itemList.hashCode());
+
 		return result;
 	}
 
@@ -65,20 +69,20 @@ public class Order {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		if (getFirstName() == null) {
-			if (other.getFirstName() != null)
+		if (getCustomer() == null) {
+			if (other.getCustomer() != null)
 				return false;
-		} else if (!getFirstName().equals(other.getFirstName()))
+		} else if (!getCustomer().equals(other.getCustomer()))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (orderId == null) {
+			if (other.orderId != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!orderId.equals(other.orderId))
 			return false;
-		if (surname == null) {
-			if (other.surname != null)
+		if (itemList == null) {
+			if (other.itemList != null)
 				return false;
-		} else if (!surname.equals(other.surname))
+		} else if (!itemList.equals(other.itemList))
 			return false;
 		return true;
 	}
