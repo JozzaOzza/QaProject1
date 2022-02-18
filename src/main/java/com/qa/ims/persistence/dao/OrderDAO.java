@@ -21,10 +21,10 @@ public class OrderDAO implements Dao<Order>{
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long orderId = resultSet.getLong("orderId");
-//		Long custId = resultSet.getLong("o.fkCustId");
+		Double orderSum = resultSet.getDouble("orderSum");
 		String surname = resultSet.getString("surname");
-		String itemName = resultSet.getString("itemName");
-		return new Order(orderId, surname, itemName);
+//		String itemName = resultSet.getString("itemName");
+		return new Order(orderId, surname, orderSum);
 	}
 	
 	
@@ -44,7 +44,7 @@ public class OrderDAO implements Dao<Order>{
 		return new Order(orderId);
 	}
 	
-	public Double modelFromResultSetCost(ResultSet resultSet) throws SQLException {
+	public Double calculateCostResult(ResultSet resultSet) throws SQLException {
 		Double orderCost = resultSet.getDouble("SUM(i.price)");
 //		Long custId = resultSet.getLong("o.fkCustId");
 //		String surname = resultSet.getString("surname");
@@ -61,12 +61,16 @@ public class OrderDAO implements Dao<Order>{
 	public List<Order> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT o.orderId, c.surname, i.itemName\r\n"
+				ResultSet resultSet = statement.executeQuery("SELECT o.orderId, c.surname, SUM(i.price) AS orderSum \r\n"
 						+ "FROM (((orders o \r\n"
-						+ "JOIN customers c ON o.fkCustId = c.id )\r\n"
-						+ "JOIN orderItems oi ON o.orderId = oi.fkOrderId)\r\n"
-						+ "JOIN items i ON oi.fkItemId = i.itemId)\r\n"
-						+ "ORDER BY orderId;");) {
+						+ "JOIN customers c \r\n"
+						+ "ON o.fkCustId = c.id ) \r\n"
+						+ "JOIN orderItems oi \r\n"
+						+ "ON o.orderId = oi.fkOrderId) \r\n"
+						+ "JOIN items i \r\n"
+						+ "ON oi.fkItemId = i.itemId) \r\n"
+						+ "GROUP BY o.orderId \r\n"
+						+ "ORDER BY o.orderId ;");) {
 			List<Order> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(modelFromResultSet(resultSet));
@@ -198,7 +202,7 @@ public class OrderDAO implements Dao<Order>{
 			
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
-				return modelFromResultSetCost(resultSet);
+				return calculateCostResult(resultSet);
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -206,5 +210,24 @@ public class OrderDAO implements Dao<Order>{
 		}
 		return null;
 	}
+	
+		
+	public Order removeItem(Order order) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("DELETE FROM orderItems WHERE fkOrderId = ? AND fkItemId IN \r\n"
+								+ "(SELECT itemId FROM items WHERE itemName LIKE ?) LIMIT 1;")) {
+			statement.setLong(1, order.getOrderId());
+			statement.setString(2, order.getItemName());
+			statement.executeUpdate();
+			return read(order.getOrderId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		
+		return null;
+	}
+
 }	
 

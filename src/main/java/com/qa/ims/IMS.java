@@ -100,9 +100,6 @@ public class IMS {
 		case DELETE:
 			crudController.delete();
 			break;
-		case CALCULATE:
-			orderController.calculateCost();
-			break;
 		case RETURN:
 			break;
 		default:

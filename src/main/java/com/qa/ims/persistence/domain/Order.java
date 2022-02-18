@@ -6,6 +6,7 @@ public class Order {
 	private Long custId;
 	private String itemName;
 	private String surname;
+	private Double orderCost;
 		
 	public Order(Long orderId) { // , ArrayList<Item> itemList
 		this.setOrderId(orderId);
@@ -23,11 +24,12 @@ public class Order {
 //	
 //	}
 
-	public Order(Long orderId, String surname, String itemName) { // String itemName
+	public Order(Long orderId, String surname, Double orderCost) { // String itemName
 		this.setOrderId(orderId);
 //		this.setCustId(custId);
 		this.setSurname(surname);
-		this.setItemName(itemName);
+//		this.setItemName(itemName);
+		this.setOrderCost(orderCost);
 	
 	}
 
@@ -67,10 +69,18 @@ public class Order {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
+	
+	public Double getOrderCost() {
+		return orderCost;
+	}
+
+	public void setOrderCost(Double orderCost) {
+		this.orderCost = orderCost;
+	}
 
 	@Override
 	public String toString() {
-		return "order ID: " + orderId + " surname: " + surname + " item name: " + itemName;
+		return "Order ID: " + orderId + "  Surname: " + surname + "  Order cost " + orderCost;
 	}
 
 	@Override
@@ -81,6 +91,7 @@ public class Order {
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result + ((orderCost == null) ? 0 : orderCost.hashCode());
 
 		return result;
 	}
@@ -113,6 +124,11 @@ public class Order {
 			if (other.surname != null)
 				return false;
 		} else if (!surname.equals(other.surname))
+			return false;
+		if (orderCost == null) {
+			if (other.orderCost != null)
+				return false;
+		} else if (!orderCost.equals(other.orderCost))
 			return false;
 		return true;
 	}

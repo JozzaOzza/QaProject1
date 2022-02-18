@@ -1,6 +1,5 @@
 package com.qa.ims.controller;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -56,15 +55,33 @@ public class OrderController implements CrudController<Order> {
 	 */
 	@Override
 	public Order update() {
-		LOGGER.info("Please enter the id of the order you would like to update");
-		Long orderId = utils.getLong();
-		LOGGER.info("Please enter an item name");
-		String itemName = utils.getString();
-		Order order = orderDAO.update(new Order(orderId, itemName));
-		LOGGER.info("Order Updated");
-		return order;
-
+		LOGGER.info("Would you like to ADD an item to an order or REMOVE an item from an order?");
+		String option = utils.getOption();
+		switch (option.toUpperCase()) {
+		case "ADD":
+			LOGGER.info("Please enter the ID of the order you want to add to");
+			Long orderIdA = utils.getLong();
+			LOGGER.info("Please enter the name of the item you want to add");
+			String itemNameA = utils.getString();
+			Order orderA = orderDAO.update(new Order(orderIdA, itemNameA));
+			LOGGER.info("Item added");
+			return orderA;
+			
+		case "REMOVE":
+			LOGGER.info("To remove an item, first you must enter a valid Order ID");
+			Long orderIdR = utils.getLong();
+			LOGGER.info("Please enter an item name to delete that item from the order");
+			String itemNameR = utils.getString();
+			Order orderR = orderDAO.removeItem(new Order(orderIdR, itemNameR));
+			LOGGER.info("Item removed");
+			return orderR;
+			
+		default:
+			return null;
+		}	
 	}
+	
+
 
 	/**
 	 * Deletes an existing order by the id of the order
@@ -85,5 +102,15 @@ public class OrderController implements CrudController<Order> {
 		Double costResult = orderDAO.calculateCost(orderId);
 		LOGGER.info(costResult);
 		return costResult;
+	}
+	
+	public Order removeItem() {
+		LOGGER.info("To remove an item, first you must enter a valid Order ID");
+		Long orderId = utils.getLong();
+		LOGGER.info("Please enter an item name to delete that item from the order");
+		String itemName = utils.getString();
+		Order order = orderDAO.removeItem(new Order(orderId, itemName));
+		LOGGER.info("Item removed");
+		return order;
 	}
 }
