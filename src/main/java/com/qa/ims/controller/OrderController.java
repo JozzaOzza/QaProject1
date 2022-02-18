@@ -1,5 +1,6 @@
 package com.qa.ims.controller;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -78,4 +79,11 @@ public class OrderController implements CrudController<Order> {
 		return orderDAO.delete(orderId);
 	}
 
+	public Double calculateCost() {
+		LOGGER.info("To see an order total, please enter a valid Order ID");
+		Long orderId = utils.getLong();
+		Double costResult = orderDAO.calculateCost(orderId);
+		LOGGER.info(costResult);
+		return costResult;
+	}
 }

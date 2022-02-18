@@ -81,12 +81,12 @@ public class IMS {
 			if (action == Action.RETURN) {
 				changeDomain = true;
 			} else {
-				doAction(active, action);
+				doAction(active, orders, action);
 			}
 		} while (!changeDomain);
 	}
 
-	public void doAction(CrudController<?> crudController, Action action) {
+	public void doAction(CrudController<?> crudController, OrderController orderController, Action action) {
 		switch (action) {
 		case CREATE:
 			crudController.create();
@@ -99,6 +99,9 @@ public class IMS {
 			break;
 		case DELETE:
 			crudController.delete();
+			break;
+		case CALCULATE:
+			orderController.calculateCost();
 			break;
 		case RETURN:
 			break;

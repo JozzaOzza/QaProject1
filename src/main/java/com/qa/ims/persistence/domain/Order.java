@@ -7,8 +7,8 @@ public class Order {
 	private String itemName;
 	private String surname;
 		
-	public Order(Long custId) { // , ArrayList<Item> itemList
-		this.setCustId(custId);
+	public Order(Long orderId) { // , ArrayList<Item> itemList
+		this.setOrderId(orderId);
 	
 	}
 	

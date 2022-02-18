@@ -20,29 +20,37 @@ public class OrderDAO implements Dao<Order>{
 
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long orderId = resultSet.getLong("o.orderId");
+		Long orderId = resultSet.getLong("orderId");
 //		Long custId = resultSet.getLong("o.fkCustId");
-		String surname = resultSet.getString("c.surname");
+		String surname = resultSet.getString("surname");
 		String itemName = resultSet.getString("itemName");
 		return new Order(orderId, surname, itemName);
 	}
 	
 	
-//	public Order modelFromResultSetCustomer(ResultSet resultSet) throws SQLException {
-//		Long orderId = resultSet.getLong("orderId");
-//		Long custId = resultSet.getLong("fkCustId");
+	public Order modelFromResultSetUpdate(ResultSet resultSet) throws SQLException {
+		Long orderId = resultSet.getLong("orderId");
+//		Long custId = resultSet.getLong("o.fkCustId");
 //		String surname = resultSet.getString("surname");
-//		return new Order(orderId, custId, surname);
-//	}
-	
-//	public Order modelFromResultSetItem(ResultSet resultSet) throws SQLException {
-//		Long orderId = resultSet.getLong("orderId");
-//		Long custId = resultSet.getLong("fkCustId");
-//		String itemList = resultSet.getString("itemList");
-//		resultSet.
-//		return new Order(orderId, custId);
-//	}
+		String itemName = resultSet.getString("itemName");
+		return new Order(orderId, itemName);
+	}
 
+	public Order modelFromResultSetOrder(ResultSet resultSet) throws SQLException {
+		Long orderId = resultSet.getLong("orderId");
+//		Long custId = resultSet.getLong("o.fkCustId");
+//		String surname = resultSet.getString("surname");
+//		String itemName = resultSet.getString("itemName");
+		return new Order(orderId);
+	}
+	
+	public Double modelFromResultSetCost(ResultSet resultSet) throws SQLException {
+		Double orderCost = resultSet.getDouble("SUM(i.price)");
+//		Long custId = resultSet.getLong("o.fkCustId");
+//		String surname = resultSet.getString("surname");
+//		String itemName = resultSet.getString("itemName");
+		return orderCost;
+	}
 
 	/**
 	 * Reads all orders from the database
@@ -116,7 +124,7 @@ public class OrderDAO implements Dao<Order>{
 			statement.setLong(1, orderId);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
-				return modelFromResultSet(resultSet);
+				return modelFromResultSetOrder(resultSet);
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -137,19 +145,29 @@ public class OrderDAO implements Dao<Order>{
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("INSERT INTO orderItems (fkOrderId, fkItemId) \r\n"
-								+ "VALUES (?, 1);\r\n"
-								+ "UPDATE orderItems\r\n"
-								+ "SET fkItemId = (SELECT itemId FROM items WHERE itemName LIKE '?')\r\n"
-								+ "WHERE fkOrderId = (SELECT fkOrderId FROM orderItems ORDER BY orderItemId DESC LIMIT 1) "
-								+ "ORDER BY orderItemId DESC LIMIT 1;")) {
+								+ "VALUES (?, 1);\r\n")) {
 			statement.setLong(1, order.getOrderId());
-			statement.setString(2, order.getItemName());
+			statement.executeUpdate();
+//			return read(order.getOrderId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("UPDATE orderItems\r\n"
+								+ "SET fkItemId = (SELECT itemId FROM items WHERE itemName LIKE ?)\r\n"
+								+ "WHERE fkOrderId = ? "
+								+ "ORDER BY orderItemId DESC LIMIT 1;")) {
+			statement.setString(1, order.getItemName());
+			statement.setLong(2, order.getOrderId());
 			statement.executeUpdate();
 			return read(order.getOrderId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
+		
 		return null;
 	}
 
@@ -172,6 +190,21 @@ public class OrderDAO implements Dao<Order>{
 	}
 
 
-
-}
+	public Double calculateCost(Long orderId) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("SELECT SUM(i.price) FROM items i JOIN orderItems oi "
+						+ "ON i.itemId = oi.fkItemId WHERE fkOrderId = ?");) {
+			statement.setLong(1, orderId);
+			
+			try (ResultSet resultSet = statement.executeQuery();) {
+				resultSet.next();
+				return modelFromResultSetCost(resultSet);
+			}
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+}	
 
