@@ -1,0 +1,40 @@
+This the the READme file for JozzaOzza/QaProject1
+
+# Title
+
+QaProject1 would more aptly be called "Inventory Management System."
+
+# Description
+
+The application connects to a MySQL database containing information on Customers, Items, and Orders. 
+The application allows users to Create, Read, Update and Delete this information, as well as removing individual tems from orders, and viewing the total order cost as part of Read.
+The application runs on Java.
+
+# Installation
+
+There are several applications to install before attempting to use this application:
+  - Eclipse IDE. https://www.eclipse.org/downloads/packages/installer
+  - Apache Maven. https://maven.apache.org/download.cgi
+  - MySQL Workbench (editing the schema). https://dev.mysql.com/downloads/workbench/
+
+To set up the application:
+
+  1. Fork the repository on GitHub. https://github.com/JozzaOzza/QaProject1
+  2. GitBash command to clone repository. ' git clone <link to forked repo> '
+
+# Usage
+
+When the application and all its dependencies have been installed, run the program.
+The Console should read: "Welcome to the Inventory Management System!
+                          Which entity would you like to use?
+                          CUSTOMER: Information about customers
+                          ITEM: Individual Items
+                          ORDER: Purchases of items
+                          STOP: To close the application"
+                          
+The words in CAPITAL LETTERS can be typed into the console as commands.
+Typing in "customer" and pressing 'Enter' would bring you to the CUSTOMER section of the application. 
+Again, any words printed to the console in CAPITAL LETTERS can be used as commands.
+
+Accessing these commands inside CUSTOMER, ITEMS, or ORDERS will either prompt you to enter in words or numbers as input, or will take you back to the main menu.
+
