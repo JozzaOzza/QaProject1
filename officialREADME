@@ -13,8 +13,8 @@ The application runs on Java.
 # Installation
 
 There are several applications to install before attempting to use this application:
-  - Eclipse IDE. https://www.eclipse.org/downloads/packages/installer
-  - Apache Maven. https://maven.apache.org/download.cgi
+  - Eclipse IDE. https://www.eclipse.org/downloads/packages/installer . 
+  - Apache Maven. https://maven.apache.org/download.cgi . How to: How to: https://docs.wso2.com/display/IS323/Installing+Apache+Maven+on+Windows
   - MySQL Workbench (editing the schema). https://dev.mysql.com/downloads/workbench/
 
 To set up the application:
