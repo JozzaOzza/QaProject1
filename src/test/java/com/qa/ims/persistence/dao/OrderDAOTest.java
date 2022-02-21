@@ -82,7 +82,7 @@ public class OrderDAOTest {
 	
 	@Test
 	public void testRemove() {
-		assertEquals(new Order(1L, null, null), DAO.removeItem(new Order(1L, "Rocket League")));
+		assertEquals(1, DAO.removeItem(new Order(1L, "Rocket League")));
 	}
 	
 	@Test

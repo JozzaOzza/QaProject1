@@ -179,7 +179,7 @@ public class OrderDAO implements Dao<Order>{
 
 	
 		
-	public Order removeItem(Order order) {
+	public int removeItem(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("DELETE FROM orderItems WHERE fkOrderId = ? AND fkItemId IN \r\n"
@@ -187,13 +187,13 @@ public class OrderDAO implements Dao<Order>{
 			statement.setLong(1, order.getOrderId());
 			statement.setString(2, order.getItemName());
 			statement.executeUpdate();
-			return read(order.getOrderId());
+			return 1;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
 		
-		return null;
+		return 0;
 	}
 
 }	
