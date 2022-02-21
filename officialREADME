@@ -38,3 +38,26 @@ Again, any words printed to the console in CAPITAL LETTERS can be used as comman
 
 Accessing these commands inside CUSTOMER, ITEMS, or ORDERS will either prompt you to enter in words or numbers as input, or will take you back to the main menu.
 
+# Requirements
+
+The minimum requirements for this application are, being able to: // The commands needed to perform this action in the application are: // Any side notes:
+  Add a customer to the system // CUSTOMER CREATE
+  View all customers in the system // CUSTOMER READ
+  Update a customer in the system // CUSTOMER UPDATE
+  Delete a customer in the system // CUSTOMER DELETE
+  Add an item to the system // ITEM CREATE
+  View all items in the system // ITEM READ
+  Update an item in the system // ITEM UPDATE
+  Delete an item in the system // ITEM DELETE
+  Create an order in the system // ORDER CREATE
+  View all orders in the system // ORDER READ
+  Delete an order in the system // ORDER DELETE
+  Add an item to an order // ORDER UPDATE ADD
+  Calculate a cost for an order // ORDER READ // Order costs are listed when a user selects ORDER READ
+  Delete an item in an order // ORDER UPDATE REMOVE
+  
+When considering the entities in this domain:
+
+  A customer needs to have a name.
+  An item needs to have a name and a value.
+  An order needs to have a customer and contains items.
