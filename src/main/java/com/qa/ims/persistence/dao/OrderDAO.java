@@ -36,22 +36,6 @@ public class OrderDAO implements Dao<Order>{
 		return new Order(orderId, custId);
 	}
 
-	public Order modelFromResultSetOrder(ResultSet resultSet) throws SQLException {
-		Long orderId = resultSet.getLong("orderId");
-//		Long custId = resultSet.getLong("o.fkCustId");
-//		String surname = resultSet.getString("surname");
-//		String itemName = resultSet.getString("itemName");
-		return new Order(orderId);
-	}
-	
-	public Double calculateCostResult(ResultSet resultSet) throws SQLException {
-		Double orderCost = resultSet.getDouble("SUM(i.price)");
-//		Long custId = resultSet.getLong("o.fkCustId");
-//		String surname = resultSet.getString("surname");
-//		String itemName = resultSet.getString("itemName");
-		return orderCost;
-	}
-
 	/**
 	 * Reads all orders from the database
 	 * 

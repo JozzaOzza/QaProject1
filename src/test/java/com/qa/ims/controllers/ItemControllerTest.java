@@ -87,5 +87,18 @@ public class ItemControllerTest {
 		Mockito.verify(utils, Mockito.times(1)).getLong();
 		Mockito.verify(dao, Mockito.times(1)).delete(ID);
 	}
+	
+	@Test
+	public void testDeleteFailure() {
+		final long ID = 11L;
+
+		Mockito.when(utils.getLong()).thenReturn(ID);
+		Mockito.when(dao.delete(ID)).thenReturn(0);
+
+		assertEquals(0, this.controller.delete());
+
+		Mockito.verify(utils, Mockito.times(1)).getLong();
+		Mockito.verify(dao, Mockito.times(1)).delete(ID);
+	}
 
 }
