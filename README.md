@@ -1,89 +1,103 @@
-Coverage: 34%
-# Project Title
+Coverage: 80.4%
 
-One Paragraph of project description goes here
+This the the READme file for JozzaOzza/QaProject1
 
-## Getting Started
+# Title
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+QaProject1
 
-### Prerequisites
+## Description
 
-What things you need to install the software and how to install them
+The application connects to a MySQL database containing information on Customers, Items, and Orders. 
+The application allows users to Create, Read, Update and Delete this information, as well as removing individual items from orders, 
+and viewing the total order cost as part of Read.
+The application runs on Java.
 
-```
-Give examples
-```
+## Installation
 
-### Installing
+There are several applications to install before attempting to use this application:
+  - Eclipse IDE. https://www.eclipse.org/downloads/packages/installer . 
+  - Apache Maven. https://maven.apache.org/download.cgi . How to: How to: https://docs.wso2.com/display/IS323/Installing+Apache+Maven+on+Windows
+  - MySQL Workbench (editing the schema). https://dev.mysql.com/downloads/workbench/
 
-A step by step series of examples that tell you how to get a development env running
+To set up the application:
 
-Say what the step will be
+  1. Fork the repository on GitHub. https://github.com/JozzaOzza/QaProject1
+  2. GitBash command to clone repository. ' git clone <link to forked repo> '
 
-```
-Give the example
-```
+## Usage
 
-And repeat
+When the application and all its dependencies have been installed, run the program.
+The Console should read: "Welcome to the Inventory Management System!
+                          Which entity would you like to use?
+                          CUSTOMER: Information about customers
+                          ITEM: Individual Items
+                          ORDER: Purchases of items
+                          STOP: To close the application"
+                          
+The words in CAPITAL LETTERS can be typed into the console as commands.
+Typing in "customer" and pressing 'Enter' would bring you to the CUSTOMER section of the application. 
 
-```
-until finished
-```
+Accessing the commands inside CUSTOMER, ITEMS, or ORDERS will either prompt you to enter in words or numbers as input, or will take you back to the main menu. Typing in 'read' and pressing 'Enter' inside of CUSTOMER would display a list of all the customers.
 
-End with an example of getting some data out of the system or using it for a little demo
+## Requirements of project
 
-## Running the tests
+The minimum requirements for this application are, being able to: // The commands needed to perform this requirement: // Any side notes:
+  Add a customer to the system // CUSTOMER, CREATE
+  View all customers in the system // CUSTOMER, READ
+  Update a customer in the system // CUSTOMER, UPDATE
+  Delete a customer in the system // CUSTOMER, DELETE
+  Add an item to the system // ITEM, CREATE
+  View all items in the system // ITEM, READ
+  Update an item in the system // ITEM, UPDATE
+  Delete an item in the system // ITEM, DELETE
+  Create an order in the system // ORDER, CREATE
+  View all orders in the system // ORDER, READ
+  Delete an order in the system // ORDER, DELETE
+  Add an item to an order // ORDER, UPDATE, ADD
+  Calculate a cost for an order // ORDER, READ // Order costs are listed when a user selects ORDER READ
+  Delete an item in an order // ORDER, UPDATE, REMOVE
+  
+When considering the entities in this domain:
 
-Explain how to run the automated tests for this system. Break down into which tests and what they do
+  Customers need to have a name.
+  Items need to have a name and a value.
+  Orders need to have a customer and contains items.
+  
+## Running tests
 
-### Unit Tests 
+### Unit test:
 
-Explain what these tests test, why and how to run them
+In the OrderControllerTest.java file, 
 
-```
-Give an example
-```
+			@Test
+			public void testReadAll() {
+				List<Order> orders = new ArrayList<>();
+				orders.add(new Order(11L, "Orr", 150D));
 
-### Integration Tests 
-Explain what these tests test, why and how to run them
+				Mockito.when(dao.readAll()).thenReturn(orders);
 
-```
-Give an example
-```
+				assertEquals(orders, controller.readAll());
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
+				Mockito.verify(dao, Mockito.times(1)).readAll();
+			}  
+			
+This test ensures that the ReadAll method in OrderDAO.java works independently of the other classes and methods, which can be helpful when debugging.
 
 ## Built With
-
-* [Maven](https://maven.apache.org/) - Dependency Management
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning.
+Maven - Dependency Management
 
 ## Authors
+Chris Perrins - Initial work - [christophperrins](https://github.com/christophperrins)
+Jamie Orr - Updated work - [JozzaOzza](https://github.com/JozzaOzza)
 
-* **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
 
 ## License
+This project is licensed under the MIT license - see the LICENSE.md file for details
 
-This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md) file for details 
-
-*For help in [Choosing a license](https://choosealicense.com/)*
+For help in Choosing a license
 
 ## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+Hat tip to anyone whose code was used
+Inspiration
+etc  			

@@ -51,5 +51,21 @@ public class Utils {
 		} while (doubleInput == null);
 		return doubleInput;
 	}
-
+	
+	public String getOption() {
+		String input = getString();
+		boolean accurate = false;
+		do {
+			if (input.equalsIgnoreCase("ADD") || input.equalsIgnoreCase("REMOVE")) {
+				accurate = true;
+			}
+			else {
+				LOGGER.info("Error - Type in ADD or REMOVE");
+				input = getString();
+			}
+		} while (accurate == false);
+		return input;
+	}
 }
+
+
