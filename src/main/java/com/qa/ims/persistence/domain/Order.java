@@ -38,6 +38,13 @@ public class Order {
 		this.setItemName(itemName);
 
 	}
+	
+	public Order(Long orderId, Long custId) { // String itemName
+		this.setOrderId(orderId);
+		this.setCustId(custId);
+
+	}
+	
 	public Long getOrderId() {
 		return orderId;
 	}
@@ -80,7 +87,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order ID: " + orderId + "  Surname: " + surname + "  Order cost " + orderCost;
+		return "Order ID: " + orderId + "  Surname: " + surname + "  Order cost: " + orderCost;
 	}
 
 	@Override

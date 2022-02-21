@@ -27,13 +27,13 @@ public class OrderDAO implements Dao<Order>{
 		return new Order(orderId, surname, orderSum);
 	}
 	
-	
-	public Order modelFromResultSetUpdate(ResultSet resultSet) throws SQLException {
+
+	public Order OrderAndId(ResultSet resultSet) throws SQLException {
 		Long orderId = resultSet.getLong("orderId");
-//		Long custId = resultSet.getLong("o.fkCustId");
+		Long custId = resultSet.getLong("fkCustId");
 //		String surname = resultSet.getString("surname");
-		String itemName = resultSet.getString("itemName");
-		return new Order(orderId, itemName);
+//		String itemName = resultSet.getString("itemName");
+		return new Order(orderId, custId);
 	}
 
 	public Order modelFromResultSetOrder(ResultSet resultSet) throws SQLException {
@@ -88,7 +88,7 @@ public class OrderDAO implements Dao<Order>{
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY orderId DESC LIMIT 1");) {
 			resultSet.next();
-			return modelFromResultSet(resultSet);
+			return OrderAndId(resultSet);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -128,7 +128,7 @@ public class OrderDAO implements Dao<Order>{
 			statement.setLong(1, orderId);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
-				return modelFromResultSetOrder(resultSet);
+				return OrderAndId(resultSet);
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -193,23 +193,6 @@ public class OrderDAO implements Dao<Order>{
 		return 0;
 	}
 
-
-	public Double calculateCost(Long orderId) {
-		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT SUM(i.price) FROM items i JOIN orderItems oi "
-						+ "ON i.itemId = oi.fkItemId WHERE fkOrderId = ?");) {
-			statement.setLong(1, orderId);
-			
-			try (ResultSet resultSet = statement.executeQuery();) {
-				resultSet.next();
-				return calculateCostResult(resultSet);
-			}
-		} catch (Exception e) {
-			LOGGER.debug(e);
-			LOGGER.error(e.getMessage());
-		}
-		return null;
-	}
 	
 		
 	public Order removeItem(Order order) {
